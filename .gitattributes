@@ -1,0 +1,7 @@
+* text=input
+
+*.js    text
+*.hbs   text
+*.html  text
+*.scss  text
+*.json  text
