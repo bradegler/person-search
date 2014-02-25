@@ -1,3 +1,5 @@
+'use strict';
+
 // Configuration data
 var fs = require('fs');
 var path = require('path');

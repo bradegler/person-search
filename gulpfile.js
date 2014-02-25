@@ -10,6 +10,7 @@ var bourbon = require('node-bourbon').includePaths;
 var watch = require('gulp-watch');
 var nodemon = require('gulp-nodemon');
 var jshint = require('gulp-jshint');
+var mocha = require('gulp-mocha');
 
 gutil.log('Environment', gutil.colors.blue(gutil.env.production ? 'Production' : 'Development'));
 
@@ -47,7 +48,7 @@ gulp.task('html', function() {
 });
 
 gulp.task('lint', function() {
-    gulp.src(['client/**/*.js', 'server/**/*.js'])
+    gulp.src(['client/**/*.js', 'server/**/*.js', 'test/**/*.js'])
         .pipe(jshint('.jshintrc'))
         .pipe(jshint.reporter('jshint-stylish'));
 });
@@ -66,6 +67,13 @@ gulp.task('watch', function() {
     gulp.watch('client/scss/**', function(evt) {
         gulp.run('styles', function() {});
     });
+});
+
+gulp.task('test', function() {
+    gulp.src('./test/**/*.js')
+        .pipe(mocha({
+            reporter: 'list'
+        }));
 });
 
 gulp.task('build', ['lint', 'styles', 'scripts', 'html']);

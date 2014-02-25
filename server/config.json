@@ -1,5 +1,9 @@
 {
     "index": {
         "prefix": "si:per"
+    },
+    "search": {
+        "max": 10
     }
+
 }
