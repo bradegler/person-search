@@ -11,7 +11,7 @@ Config.index.cache = 'test:cache';
 
 var redis = require('redis');
 var client = redis.createClient();
-redis.debug_mode = true;
+//redis.debug_mode = true;
 
 describe('Search', function() {
     before(function(done) {
@@ -58,7 +58,7 @@ describe('Search', function() {
 
         it("should find results via a single search term", function(done) {
             search.search(['oden'], function(err, results) {
-                //expect(results).to.be.not.undefined;
+                expect(results).to.be.not.undefined;
                 expect(results).to.be.not.null;
                 expect(results).to.have.length(1);
                 done();
