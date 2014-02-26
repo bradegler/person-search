@@ -7,9 +7,11 @@ var clear = require('../server/lib/clear');
 var Config = require('../server/lib/config').get();
 
 Config.index.prefix = 'test:idx';
+Config.index.cache = 'test:cache';
 
 var redis = require('redis');
 var client = redis.createClient();
+redis.debug_mode = true;
 
 describe('Search', function() {
     before(function(done) {
@@ -56,7 +58,7 @@ describe('Search', function() {
 
         it("should find results via a single search term", function(done) {
             search.search(['oden'], function(err, results) {
-                console.log(results);
+                //expect(results).to.be.not.undefined;
                 expect(results).to.be.not.null;
                 expect(results).to.have.length(1);
                 done();
@@ -64,6 +66,7 @@ describe('Search', function() {
         });
         it("should find multiple results from a partial search term", function(done) {
             search.search(['sea'], function(err, results) {
+                expect(results).to.be.not.undefined;
                 expect(results).to.be.not.null;
                 expect(results).to.have.length(2);
                 expect(results[0].id).to.eql("1");
@@ -73,6 +76,7 @@ describe('Search', function() {
         });
         it("should find results from multiple search terms", function(done) {
             search.search(['sea', 'tes'], function(err, results) {
+                expect(results).to.be.not.undefined;
                 expect(results).to.be.not.null;
                 expect(results).to.have.length(1);
                 expect(results[0].id).to.eql("1");
