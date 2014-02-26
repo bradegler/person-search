@@ -13,7 +13,7 @@ exports.clear = function(pattern, fn) {
         for (var ix = 0; ix < results.length; ix++) {
             client.del(results[ix]);
         }
-        console.log('Removed ' + results.length + ' keys');
+        //console.log('Removed ' + results.length + ' keys');
         fn(results.length);
     });
 };

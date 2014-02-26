@@ -9,7 +9,7 @@ var raw = fs.readFileSync(path.join(__dirname, '../config.json'), {
 });
 var Config = JSON.parse(raw);
 
-console.log(JSON.stringify(Config));
+//console.log(JSON.stringify(Config));
 
 exports.get = function() {
     return Config;

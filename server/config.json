@@ -1,6 +1,7 @@
 {
     "index": {
-        "prefix": "si:per"
+        "prefix": "si:per",
+        "cache": "si:cache"
     },
     "search": {
         "max": 10

@@ -18,7 +18,7 @@ function Person(obj) {
 }
 
 Person.prototype.save = function(fn) {
-    console.log("saving " + JSON.stringify(this));
+    //console.log("saving " + JSON.stringify(this));
     var self = this;
     client.hget(Config.index.prefix, this.id, function(err, old) {
         if (err) throw err;
@@ -32,7 +32,7 @@ Person.prototype.save = function(fn) {
 };
 
 Person.prototype.insert = function(fn) {
-    console.log("inserting");
+    //console.log("inserting");
     var self = this;
     client.hset(Config.index.prefix, this.id, JSON.stringify(this), function(e1) {
         if (e1) fn(e1);
@@ -44,7 +44,7 @@ Person.prototype.insert = function(fn) {
 };
 
 Person.prototype.update = function(old, fn) {
-    console.log("updating");
+    //console.log("updating");
     var toUpdate = [];
     var self = this;
     if (this.name.last !== old.name.last) {
@@ -83,13 +83,13 @@ function replaceInIndex(oldword, newword, id, fn) {
     for (i = 1; i <= oword.length; i++) {
         prefix = oword.substr(0, i);
         idx = Config.index.prefix + ':' + prefix;
-        console.log('Removing ' + id + ' from ' + idx);
+        //console.log('Removing ' + id + ' from ' + idx);
         multi.zrem(idx, id);
     }
     for (i = 1; i <= nword.length; i++) {
         prefix = nword.substr(0, i);
         idx = Config.index.prefix + ':' + prefix;
-        console.log(idx);
+        //console.log(idx);
         multi.zadd(idx, 0, id);
     }
     multi.exec(function(err) {
@@ -103,7 +103,7 @@ function addToIndex(word, id, fn) {
     for (var i = 1; i <= w.length; i++) {
         var prefix = w.substr(0, i);
         var idx = Config.index.prefix + ':' + prefix;
-        console.log(idx);
+        //console.log(idx);
         multi.zadd(idx, 0, id);
     }
     multi.exec(function(err) {

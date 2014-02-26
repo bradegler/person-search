@@ -72,7 +72,7 @@ gulp.task('watch', function() {
 gulp.task('test', function() {
     gulp.src('./test/**/*.js')
         .pipe(mocha({
-            reporter: 'list'
+            reporter: 'spec'
         }));
 });
 
