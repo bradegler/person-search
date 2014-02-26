@@ -1,17 +1,14 @@
-# Seach / Auto complete
+# Seach - Auto complete
 
-The goal of this project is to create a module for instant searching of a collection of people via multiple attributes.
+The goal of this project is to create a module for search indexing using Redis as the index store.
 
-The api will be made up of the following:
-
-* POST - Load Person
-* GET - Search 
+The initial implemenation will be a person search, but will be able to support any object type when completed.
 
 ## Setup
 ### Required Software
 
-* Redis
-* Node.js
+* [Redis](http://redis.io)
+* [Node.js](http://nodejs.org)
 
 ## Installation
 
@@ -20,5 +17,5 @@ The api will be made up of the following:
 ## Running
 
 * gulp build - Browserify the client directory
-* gulp run - Start node.js server
+* gulp test - Run mocha test suite
 
