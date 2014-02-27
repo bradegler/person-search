@@ -3,7 +3,7 @@ var Config = require('./config').get();
 var redis = require('redis');
 var async = require('async');
 
-var client = redis.createClient();
+var client = redis.createClient(Config.redis.port);
 client.on("error", function(err) {
     console.log("Error " + err);
 });

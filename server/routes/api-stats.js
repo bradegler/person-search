@@ -2,7 +2,7 @@
 
 var Config = require('../lib/config').get();
 var redis = require('redis');
-var client = redis.createClient();
+var client = redis.createClient(Config.redis.port);
 
 var stats = {
     get: function(req, res) {

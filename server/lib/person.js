@@ -12,10 +12,12 @@ function Person(obj) {
     this.name.mid = obj.name.mid;
     this.phone = obj.phone;
     this.address = {};
-    this.address.line = obj.address.line;
-    this.address.city = obj.address.city;
-    this.address.state = obj.address.state;
-    this.address.zip = obj.address.zip;
+    if (obj.address) {
+        this.address.line = obj.address.line;
+        this.address.city = obj.address.city;
+        this.address.state = obj.address.state;
+        this.address.zip = obj.address.zip;
+    }
     this.dob = obj.dob;
 }
 
@@ -50,6 +52,14 @@ Person.prototype.insert = function(fn) {
         terms.push(self.phone);
         ranks.push(Config.person.phone.rank);
     }
+    if (Config.person.dob.index) {
+        terms.push(self.dob);
+        ranks.push(Config.person.dob.rank);
+        terms.concat(self.dob.split('-'));
+        ranks.push(Config.person.dob.rank);
+        ranks.push(Config.person.dob.rank);
+        ranks.push(Config.person.dob.rank);
+    }
 
     search.store(this.id, JSON.stringify(this), function(e1) {
         if (e1) fn(e1);
@@ -80,6 +90,12 @@ Person.prototype.update = function(old, fn) {
         oldterms.push(old.phone);
         terms.push(self.phone);
         ranks.push(Config.person.phone.rank);
+        hasUpdates = true;
+    }
+    if (Config.person.dob.index && self.dob !== old.dob) {
+        oldterms.push(old.dob);
+        terms.push(self.dob);
+        ranks.push(Config.person.dob.rank);
         hasUpdates = true;
     }
     search.store(self.id, JSON.stringify(self), function(err) {

@@ -7,7 +7,7 @@ var Config = require('../server/lib/config').get();
 Config.index.prefix = 'test:idx';
 
 var redis = require('redis');
-var client = redis.createClient();
+var client = redis.createClient(Config.redis.port);
 
 describe('Person', function() {
     before(function(done) {

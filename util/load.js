@@ -13,16 +13,18 @@ program
     .version('0.0.1')
     .option('-f, --file <name>', 'file to load')
     .option('-t, --type [type]', 'file type [json, pipe]', 'json')
+    .option('-l, --limit <limit>', 'max items to process', '100000')
     .parse(process.argv);
 
 
 if (program.type === 'json') {
     handleJson(program.file);
 } else if (program.type === 'pipe') {
-    handlePipe(program.file);
+    handlePipe(program.file, program.limit);
 }
 
-function handlePipe(file, fn) {
+function handlePipe(file, limit) {
+    var count = 0;
     new lazy(fs.createReadStream(file)).lines
         .forEach(function(line) {
             var parts = line.toString().split('|');
@@ -48,9 +50,14 @@ function handlePipe(file, fn) {
             };
             new Person(person).insert(function(err) {
                 if (err) console.error(err);
+                if (count++ % 100000 === 0) {
+                    console.log(count);
+                }
+                if (count === limit - 1) {
+                    process.exit(0);
+                }
             });
         });
-    //process.exit(0);
 }
 
 function handleJson(file) {

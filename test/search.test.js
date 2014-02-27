@@ -10,7 +10,7 @@ Config.index.prefix = 'test:idx';
 Config.index.cache = 'test:cache';
 
 var redis = require('redis');
-var client = redis.createClient();
+var client = redis.createClient(Config.redis.port);
 //redis.debug_mode = true;
 
 describe('Search', function() {

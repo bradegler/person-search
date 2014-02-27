@@ -1,4 +1,8 @@
 {
+    "redis": {
+        "host": "localhost",
+        "port": "6380"
+    },
     "index": {
         "prefix": "si:per",
         "cache": "si:cache",
@@ -18,6 +22,10 @@
         "phone": {
             "index": false,
             "rank": 50
+        },
+        "dob": {
+            "index": true,
+            "rank": 20
         }
     }
 }

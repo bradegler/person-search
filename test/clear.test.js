@@ -1,8 +1,9 @@
 'use strict';
 
+var Config = require('../server/lib/config').get();
 var expect = require('chai').expect;
 var redis = require('redis');
-var client = redis.createClient();
+var client = redis.createClient(Config.redis.port);
 var clear = require('../server/lib/clear');
 
 describe("clear", function() {
