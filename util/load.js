@@ -44,7 +44,7 @@ function handlePipe(data) {
     lines.forEach(function(line) {
         var parts = line.split('|');
         var phone;
-        if (parts[9].length > 0 && parts[10].length > 0) {
+        if (parts[9] !== undefined && parts[10] !== undefined && parts[9].length > 0 && parts[10].length > 0) {
             phone = '(' + parts[9] + ') ' + parts[10].substr(0, 3) + '-' + parts[10].substr(3);
         }
         persons.push({
