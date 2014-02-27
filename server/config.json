@@ -1,10 +1,23 @@
 {
     "index": {
         "prefix": "si:per",
-        "cache": "si:cache"
+        "cache": "si:cache",
+        "max": 50,
+        "cache_ttl": 300,
+        "case_sensitive": false
     },
-    "search": {
-        "max": 10
+    "person": {
+        "lastname": {
+            "index": true,
+            "rank": 0
+        },
+        "firstname": {
+            "index": true,
+            "rank": 5
+        },
+        "phone": {
+            "index": false,
+            "rank": 50
+        }
     }
-
 }

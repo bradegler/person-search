@@ -3,9 +3,6 @@
 var Person = require('../lib/person').Person;
 
 var person = {
-    get: function(req, res) {
-        res.send(200, {});
-    },
     post: function(req, res) {
         console.log(req.body);
         new Person(req.body).save();
@@ -14,6 +11,5 @@ var person = {
 };
 
 module.exports.load = function(app) {
-    app.get('/api/person', person.get);
     app.post('/api/person', person.post);
 };

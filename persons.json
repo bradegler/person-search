@@ -5,6 +5,55 @@
             "last": "Smith",
             "first": "Bob"
         },
-        "phone": "1115553423"
+        "phone": "111-555-3423",
+        "address": {
+            "line": "133 West East Street",
+            "city": "Moon Township",
+            "state": "PA",
+            "zip": "15108"
+        },
+        "dob": "01-21-1981"
+    }, {
+        "id": "2",
+        "name": {
+            "last": "Smith",
+            "first": "John"
+        },
+        "phone": "111-555-3423",
+        "address": {
+            "line": "7911 East North Drive",
+            "city": "Monaca",
+            "state": "PA",
+            "zip": "15103"
+        },
+        "dob": "10-21-1977"
+    }, {
+        "id": "3",
+        "name": {
+            "last": "Jones",
+            "first": "Sheila"
+        },
+        "phone": "333-111-2231",
+        "address": {
+            "line": "133 West East Street",
+            "city": "Moon Township",
+            "state": "PA",
+            "zip": "15108"
+        },
+        "dob": "03-14-1992"
+    }, {
+        "id": "4",
+        "name": {
+            "last": "Jaco",
+            "first": "Bonny"
+        },
+        "phone": "111-555-3423",
+        "address": {
+            "line": "187 North Citrus Canyon Court",
+            "city": "Phoeniz",
+            "state": "AZ",
+            "zip": "40723"
+        },
+        "dob": "07-17-2013"
     }]
 }

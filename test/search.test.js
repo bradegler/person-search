@@ -15,7 +15,42 @@ var client = redis.createClient();
 
 describe('Search', function() {
     before(function(done) {
-        clear.clear(Config.index.prefix + '*', function() {
+        clear.clear('test:*', function() {
+            done();
+        });
+    });
+
+    describe('#addTerm', function() {
+        it("should add a search term to the index", function(done) {
+            search.addTerm('ironman', "24", 0, function(err) {
+                if (err) throw err;
+                client.exists(Config.index.prefix + ':ironman', function(err, exists) {
+                    expect(exists).to.eql(1);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('#updateTerm', function() {
+        before(function(done) {
+            search.addTerm('america', "22", 0, function(err) {
+                done();
+            });
+        });
+        it("should update a search term in the index", function(done) {
+            search.updateTerm('america', 'captain', "22", 0, function(err) {
+                if (err) throw err;
+                client.exists(Config.index.prefix + ':captain', function(err, exists) {
+                    expect(exists).to.eql(1);
+                    done();
+                });
+            });
+        });
+    });
+
+    describe('#search', function() {
+        before(function(done) {
             new Person({
                 id: "1",
                 name: {
@@ -45,9 +80,7 @@ describe('Search', function() {
                 });
             });
         });
-    });
 
-    describe('#search', function() {
         it("should return no results if no terms are specified", function(done) {
             search.search([], function(err, results) {
                 expect(results).to.be.not.null;
@@ -81,6 +114,21 @@ describe('Search', function() {
                 expect(results).to.have.length(1);
                 expect(results[0].id).to.eql("1");
                 done();
+            });
+        });
+        it("should cache results from multiple search terms", function(done) {
+            search.search(['sea', 'tes'], function(err, results) {
+                expect(results).to.be.not.undefined;
+                expect(results).to.be.not.null;
+                expect(results).to.have.length(1);
+                expect(results[0].id).to.eql("1");
+                client.exists(Config.index.cache + ':sea|tes', function(err, cached) {
+                    expect(cached).to.eql(1);
+                    client.ttl(Config.index.cache + ':sea|tes', function(err, ttl) {
+                        expect(ttl).to.eql(Config.index.cache_ttl);
+                        done();
+                    });
+                });
             });
         });
     });

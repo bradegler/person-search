@@ -10,6 +10,11 @@ var redis = require('redis');
 var client = redis.createClient();
 
 describe('Person', function() {
+    before(function(done) {
+        clear.clear('test:*', function() {
+            done();
+        });
+    });
     describe('#constructor', function() {
         it('should populate internal attributes', function() {
             var p = new Person({
@@ -29,11 +34,6 @@ describe('Person', function() {
     });
 
     describe('#insert', function() {
-        beforeEach(function(done) {
-            clear.clear(Config.index.prefix + '*', function() {
-                done();
-            });
-        });
         it('should insert a person to the index', function(done) {
             var p = new Person({
                 id: "1",
@@ -75,20 +75,18 @@ describe('Person', function() {
     });
 
     describe('#update', function() {
-        beforeEach(function(done) {
-            clear.clear(Config.index.prefix + '*', function() {
-                new Person({
-                    id: "1",
-                    name: {
-                        first: "first",
-                        last: "update"
-                    },
-                    phone: "111222333"
-                }).insert(done);
-            });
+        before(function(done) {
+            new Person({
+                id: "10",
+                name: {
+                    first: "first",
+                    last: "update"
+                },
+                phone: "111222333"
+            }).insert(done);
         });
         it('should update a persons last name', function(done) {
-            client.hget(Config.index.prefix, "1", function(err, old) {
+            client.hget(Config.index.prefix, "10", function(err, old) {
                 var obj = JSON.parse(old);
                 var upd = new Person(obj);
                 upd.name.last = 'downdate';
