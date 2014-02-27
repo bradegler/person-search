@@ -31,6 +31,7 @@
     "commander": "~2.1.0",
     "cli-color": "~0.2.3",
     "bootstrap": "0.0.2",
-    "bootstrap-browserify": "~2.1.1"
+    "bootstrap-browserify": "~2.1.1",
+    "lazy": "~1.0.11"
   }
 }
