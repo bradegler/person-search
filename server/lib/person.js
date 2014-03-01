@@ -52,13 +52,19 @@ Person.prototype.insert = function(fn) {
         terms.push(self.phone);
         ranks.push(Config.person.phone.rank);
     }
-    if (Config.person.dob.index) {
-        terms.push(self.dob);
-        ranks.push(Config.person.dob.rank);
-        terms.concat(self.dob.split('-'));
-        ranks.push(Config.person.dob.rank);
-        ranks.push(Config.person.dob.rank);
-        ranks.push(Config.person.dob.rank);
+    if (Config.person.dob.index && self.dob) {
+        if (self.dob.indexOf('-') !== -1) {
+            terms.concat(self.dob.split('-'));
+            ranks.push(Config.person.dob.rank);
+            ranks.push(Config.person.dob.rank);
+            ranks.push(Config.person.dob.rank);
+        }
+        if (self.dob.indexOf('/') !== -1) {
+            terms.concat(self.dob.split('/'));
+            ranks.push(Config.person.dob.rank);
+            ranks.push(Config.person.dob.rank);
+            ranks.push(Config.person.dob.rank);
+        }
     }
 
     search.store(this.id, JSON.stringify(this), function(e1) {

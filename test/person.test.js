@@ -41,7 +41,8 @@ describe('Person', function() {
                     last: "last",
                     first: "first"
                 },
-                phone: "1112223333"
+                phone: "1112223333",
+                dob: "01-14-1990"
             });
             p.insert(function(err) {
                 expect(err).to.be.null;
@@ -57,6 +58,9 @@ describe('Person', function() {
 
                     client.keys(Config.index.prefix + ':*', function(e3, results) {
                         expect(e3).to.be.null;
+                        results.forEach(function(r) {
+                            console.log(r);
+                        });
                         expect(results).to.have.length(9);
                         expect(results).to.contain(Config.index.prefix + ':f');
                         expect(results).to.contain(Config.index.prefix + ':fi');
@@ -82,7 +86,8 @@ describe('Person', function() {
                     first: "first",
                     last: "update"
                 },
-                phone: "111222333"
+                phone: "111222333",
+                dob: "01-14-1991"
             }).insert(done);
         });
         it('should update a persons last name', function(done) {
