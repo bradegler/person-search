@@ -20,7 +20,7 @@ gulp.task('scripts', function() {
     })
         .pipe(browserify({
             insertGlobals: false,
-            transform: ['browserify-handlebars'],
+            transform: ['hbsfy'],
             extensions: ['.hbs'],
             debug: !gutil.env.production
         }))
@@ -56,17 +56,9 @@ gulp.task('lint', function() {
 gulp.task('watch', function() {
     gutil.env.watch = true;
 
-    gulp.watch('./client/**/*.html', function(evt) {
-        gulp.run('html', function() {});
-    });
-
-    gulp.watch('./client/js/**', function(evt) {
-        gulp.run('scripts', function() {});
-    });
-
-    gulp.watch('client/scss/**', function(evt) {
-        gulp.run('styles', function() {});
-    });
+    gulp.watch('./client/**/*.html', ['html']);
+    gulp.watch(['./client/js/**', './client/hbs/**'], ['scripts']);
+    gulp.watch('client/scss/**', ['styles']);
 });
 
 gulp.task('test', function() {

@@ -34,10 +34,9 @@ function readValues(idxes, fn) {
 
 function searchMultiple(terms, fn) {
     var combined = terms.join('|');
-    console.log(combined);
+    //    console.log(combined);
     client.exists(Config.index.cache + ':' + combined, function(err, cached) {
         if (err) fn(err);
-        console.log('Cached: ' + cached);
         if (cached === 0) {
             var singles = [];
             terms.forEach(function(term) {

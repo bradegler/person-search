@@ -20,8 +20,8 @@
             "rank": 5
         },
         "phone": {
-            "index": false,
-            "rank": 50
+            "index": true,
+            "rank": 10
         },
         "dob": {
             "index": true,

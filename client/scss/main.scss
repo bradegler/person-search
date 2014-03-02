@@ -12,28 +12,93 @@ body {
   margin: 50px;
 }
 
-h1 {
-  font-size: 1.5em;
-  margin-bottom: 1.5em;
+@mixin transition ($time: .5s, $range: all, $ease: ease-out) {
+  -moz-transition: $range $time $ease;
+  -webkit-transition: $range $time $ease;
+  -o-transition: $range $time $ease;
+  transition: $range $time $ease;
 }
 
-h2 {
-  font-size: 1.2em;
-  margin-bottom: 0;
+@mixin transition-delay ($time: .4s) {
+  -webkit-transition-delay: $time;  
+  -moz-transition-delay: $time;  
+  -o-transition-delay: $time;  
+  -transition-delay: $time; 
 }
 
-input, textarea {
-  border: 1px solid $border-color;
+@mixin border-radius($radius) {
+  -moz-border-radius:$radius;
+  -webkit-border-radius:$radius; 
+  border-radius: $radius;
+}
+
+@mixin gradient ($coler1: #fff, $coler2: #ccc) {
+    background: $coler1;
+    background: -moz-linear-gradient($coler1, $coler2);
+    background: -webkit-linear-gradient($coler1, $coler2);
+    background: -o-linear-gradient($coler1, $coler2);
+}
+
+@mixin box-shadow($dims:0 0 10px, $color:#000) {
+  box-shadow: $dims $color; // Opera, FFX4
+  -moz-box-shadow:$dims $color; // FFX3.5
+  -webkit-box-shadow:$dims $color; // Safari/Chrome/WebKit
+}
+
+
+.modalbg {
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0);
+  z-index: 99999;
+  @include transition(2s);
+  @include transition-delay(.2s);
   display: block;
-  font-size: $primary-size;
-  padding: 5px;
-  width: 400px;
+  pointer-events: none;
+  .dialog {
+    width: 400px;
+    position: relative;
+    top: -1000px;
+    margin: 10% auto;
+    padding: 5px 20px 13px 20px;
+    @include border-radius(10px);
+    @include gradient;
+    @include box-shadow;
+  }
 }
 
-textarea {
-  height: 100px;
+.modalbg:target {
+  display: block;
+  pointer-events: auto;
+  background: rgba(4, 10 ,30, .8);
+  @include transition();
+  .dialog {
+    top: -90px;
+    @include transition(.8s);
+    @include transition-delay;
+  }
 }
 
-a.button, button {
-  @include button;
+.close {
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 25px;
+  position: absolute;
+  right: -12px;
+  text-align: center;
+  top: -10px;
+  width: 24px;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 12px;
+  -moz-border-radius: 12px;
+  border-radius: 12px;
+  @include box-shadow;
+  @include transition;
+  @include transition-delay(.2s);
+  &:hover { background: #00d9ff; @include transition; }
 }

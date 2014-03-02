@@ -48,23 +48,21 @@ Person.prototype.insert = function(fn) {
         terms.push(self.name.first);
         ranks.push(Config.person.firstname.rank);
     }
-    if (Config.person.phone.index) {
+    if (Config.person.phone.index && self.phone) {
         terms.push(self.phone);
         ranks.push(Config.person.phone.rank);
     }
     if (Config.person.dob.index && self.dob) {
+        var parts = [];
         if (self.dob.indexOf('-') !== -1) {
-            terms.concat(self.dob.split('-'));
-            ranks.push(Config.person.dob.rank);
-            ranks.push(Config.person.dob.rank);
-            ranks.push(Config.person.dob.rank);
+            parts = self.dob.split('-');
+        } else if (self.dob.indexOf('/') !== -1) {
+            parts = self.dob.split('/');
         }
-        if (self.dob.indexOf('/') !== -1) {
-            terms.concat(self.dob.split('/'));
+        parts.forEach(function(part) {
+            terms.push(part);
             ranks.push(Config.person.dob.rank);
-            ranks.push(Config.person.dob.rank);
-            ranks.push(Config.person.dob.rank);
-        }
+        });
     }
 
     search.store(this.id, JSON.stringify(this), function(e1) {

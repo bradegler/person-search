@@ -2,7 +2,10 @@
 
 var template = require('../hbs/home');
 var tperson = require('../hbs/person');
-var $ = require('jquery');
+var $ = require('jquery-browserify');
+var Handlebars = require("hbsfy/runtime");
+
+Handlebars.registerPartial('addperson', require("../hbs/partials/addperson.hbs"));
 
 function search() {
     var q = $("#searchterm").val().trim();
@@ -12,16 +15,24 @@ function search() {
             },
             function(data) {
                 $("#results").empty();
-                $("#results").append("<div class='row'>" + data.results.length + " results for <b>" + q + "</b>");
-                $("#results").append("<div class='row'>");
+                $("#resultSize").empty();
+                $("#resultSize").removeClass('alert-success');
+                $("#resultSize").removeClass('alert-danger');
+                if (data.results.length > 0) {
+                    $("#resultSize").append(data.results.length + " results for <b>" + q + "</b>");
+                    $("#resultSize").addClass('alert-success');
+                } else {
+                    $("#resultSize").addClass('alert-danger');
+                    $("#resultSize").append("No results for <b>" + q + "</b>");
+                }
                 $.each(data.results, function(i, person) {
                     $("#results").append(tperson(person));
                 });
-                $("#results").append("</div>");
             });
 
     } else {
         $("#results").empty();
+        $("#resultSize").empty();
     }
 }
 
@@ -29,7 +40,6 @@ function init() {
     $.getJSON("/api/stats", {}, function(data) {
         $('#content').html(template(data));
         $("#searchterm").keyup(search);
-        $("#search").click(search);
     });
 }
 

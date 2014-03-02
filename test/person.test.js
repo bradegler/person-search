@@ -4,13 +4,17 @@ var expect = require('chai').expect;
 var Person = require('../server/lib/person').Person;
 var clear = require('../server/lib/clear');
 var Config = require('../server/lib/config').get();
-Config.index.prefix = 'test:idx';
 
 var redis = require('redis');
 var client = redis.createClient(Config.redis.port);
 
 describe('Person', function() {
     before(function(done) {
+        Config.index.prefix = 'test:idx';
+        Config.person.firstname.index = true;
+        Config.person.lastname.index = true;
+        Config.person.phone.index = true;
+        Config.person.dob.index = true;
         clear.clear('test:*', function() {
             done();
         });
@@ -58,10 +62,10 @@ describe('Person', function() {
 
                     client.keys(Config.index.prefix + ':*', function(e3, results) {
                         expect(e3).to.be.null;
-                        results.forEach(function(r) {
-                            console.log(r);
-                        });
-                        expect(results).to.have.length(9);
+                        // results.forEach(function(r) {
+                        //     console.log(r);
+                        // });
+                        expect(results).to.have.length(25);
                         expect(results).to.contain(Config.index.prefix + ':f');
                         expect(results).to.contain(Config.index.prefix + ':fi');
                         expect(results).to.contain(Config.index.prefix + ':fir');
