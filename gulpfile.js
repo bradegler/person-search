@@ -68,6 +68,13 @@ gulp.task('test', function() {
         }));
 });
 
+gulp.task('server', function() {
+    nodemon({
+        script: 'server/server.js',
+        ext: 'js'
+    });
+});
+
 gulp.task('build', ['lint', 'styles', 'scripts', 'html']);
 
 gulp.task('default', ['build']);

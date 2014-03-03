@@ -26,6 +26,10 @@
         "dob": {
             "index": true,
             "rank": 20
+        },
+        "address": {
+            "index": true,
+            "rank": 10
         }
     }
 }

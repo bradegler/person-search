@@ -7,9 +7,11 @@ var search = require('./search');
 function Person(obj) {
     this.id = obj.id;
     this.name = {};
-    this.name.last = obj.name.last;
-    this.name.first = obj.name.first;
-    this.name.mid = obj.name.mid;
+    if (obj.name) {
+        this.name.last = obj.name.last;
+        this.name.first = obj.name.first;
+        this.name.mid = obj.name.mid;
+    }
     this.phone = obj.phone;
     this.address = {};
     if (obj.address) {
@@ -40,6 +42,7 @@ Person.prototype.insert = function(fn) {
     var self = this;
     var terms = [];
     var ranks = [];
+    var parts = [];
     if (Config.person.lastname.index) {
         terms.push(self.name.last);
         ranks.push(Config.person.lastname.rank);
@@ -53,16 +56,40 @@ Person.prototype.insert = function(fn) {
         ranks.push(Config.person.phone.rank);
     }
     if (Config.person.dob.index && self.dob) {
-        var parts = [];
         if (self.dob.indexOf('-') !== -1) {
             parts = self.dob.split('-');
         } else if (self.dob.indexOf('/') !== -1) {
             parts = self.dob.split('/');
         }
         parts.forEach(function(part) {
+            if (part.indexOf('0') === 0) {
+                terms.push(part.substr(1));
+                ranks.push(Config.person.dob.rank);
+            }
             terms.push(part);
             ranks.push(Config.person.dob.rank);
         });
+    }
+    if (Config.person.address.index && self.address) {
+        if (self.address.line) {
+            parts = self.address.line.split(' ');
+            parts.forEach(function(part) {
+                terms.push(part);
+                ranks.push(Config.person.address.rank);
+            });
+        }
+        if (self.address.city) {
+            terms.push(self.address.city);
+            ranks.push(Config.person.address.rank + 15);
+        }
+        if (self.address.state) {
+            terms.push(self.address.state);
+            ranks.push(Config.person.address.rank + 30);
+        }
+        if (self.address.zip) {
+            terms.push(self.address.zip);
+            ranks.push(Config.person.address.rank + 10);
+        }
     }
 
     search.store(this.id, JSON.stringify(this), function(e1) {
@@ -96,12 +123,8 @@ Person.prototype.update = function(old, fn) {
         ranks.push(Config.person.phone.rank);
         hasUpdates = true;
     }
-    if (Config.person.dob.index && self.dob !== old.dob) {
-        oldterms.push(old.dob);
-        terms.push(self.dob);
-        ranks.push(Config.person.dob.rank);
-        hasUpdates = true;
-    }
+    // TODO
+    // DOB and Address update
     search.store(self.id, JSON.stringify(self), function(err) {
         if (err) fn(err);
         if (hasUpdates) {
