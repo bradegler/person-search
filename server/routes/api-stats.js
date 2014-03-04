@@ -7,8 +7,11 @@ var client = redis.createClient(Config.redis.port);
 var stats = {
     get: function(req, res) {
         client.hlen(Config.index.prefix, function(err, size) {
-            res.send(200, {
-                size: size
+            client.zrange(Config.index.states, 0, -1, function(err, states) {
+                res.send(200, {
+                    size: size,
+                    states: states
+                });
             });
         });
     }

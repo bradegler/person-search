@@ -13,6 +13,10 @@ var person = {
         p.name.last = req.body.lastName;
         p.phone = req.body.phone;
         p.dob = req.body.dob;
+        p.address.line = req.body.addLine;
+        p.address.city = req.body.addCity;
+        p.address.state = req.body.addState;
+        p.address.zip = req.body.addZip;
 
         new Person(p).save();
         res.redirect('/');

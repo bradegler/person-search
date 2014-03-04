@@ -1,11 +1,15 @@
 'use strict';
 
+var uuid = require('node-uuid');
 var Config = require('./config').get();
 var search = require('./search');
 
 
 function Person(obj) {
     this.id = obj.id;
+    if (!this.id) {
+        this.id = uuid.v1();
+    }
     this.name = {};
     if (obj.name) {
         this.name.last = obj.name.last;
@@ -52,6 +56,15 @@ Person.prototype.insert = function(fn) {
         ranks.push(Config.person.firstname.rank);
     }
     if (Config.person.phone.index && self.phone) {
+        if (self.phone.indexOf('-') !== -1) {
+            parts = self.phone.split('-');
+        } else {
+            parts = [self.phone];
+        }
+        parts.forEach(function(part) {
+            terms.push(part);
+            ranks.push(Config.person.phone.rank);
+        });
         terms.push(self.phone);
         ranks.push(Config.person.phone.rank);
     }
@@ -60,6 +73,8 @@ Person.prototype.insert = function(fn) {
             parts = self.dob.split('-');
         } else if (self.dob.indexOf('/') !== -1) {
             parts = self.dob.split('/');
+        } else {
+            parts = [self.dob];
         }
         parts.forEach(function(part) {
             if (part.indexOf('0') === 0) {
@@ -69,6 +84,8 @@ Person.prototype.insert = function(fn) {
             terms.push(part);
             ranks.push(Config.person.dob.rank);
         });
+        terms.push(self.dob);
+        ranks.push(Config.person.dob.rank);
     }
     if (Config.person.address.index && self.address) {
         if (self.address.line) {

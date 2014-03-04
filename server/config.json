@@ -6,6 +6,7 @@
     "index": {
         "prefix": "si:per",
         "cache": "si:cache",
+        "states": "si:states",
         "max": 50,
         "cache_ttl": 300,
         "case_sensitive": false

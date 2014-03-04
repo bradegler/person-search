@@ -6,7 +6,7 @@
     <div class="panel-body">
       <address>
         {{./address.line}}<br>
-        {{./address.city}}, {{./address.state}} {{./address.zip}}<br>
+        {{./address.city}}{{#if ./address.city}},{{/if}} {{./address.state}} {{./address.zip}}<br>
         <abbr title="Phone">P:</abbr>{{./phone}}<br>
         <abbr title="Birthdate">B:</abbr>{{./dob}}
       </address>

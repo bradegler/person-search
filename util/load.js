@@ -32,6 +32,11 @@ function handlePipe(file, limit) {
             if (parts[9] !== undefined && parts[10] !== undefined && parts[9].length > 0 && parts[10].length > 0) {
                 phone = '' + parts[9] + '-' + parts[10].substr(0, 3) + '-' + parts[10].substr(3);
             }
+            var dob;
+            if (parts[4] !== undefined && parts[4].length > 0) {
+                var sections = parts[4].split('-');
+                dob = sections[2] + '-' + sections[0] + '-' + sections[1];
+            }
             var person = {
                 id: parts[0],
                 name: {
@@ -39,7 +44,7 @@ function handlePipe(file, limit) {
                     first: parts[2],
                     mid: parts[3],
                 },
-                dob: parts[4],
+                dob: dob,
                 address: {
                     line: parts[5],
                     city: parts[6],

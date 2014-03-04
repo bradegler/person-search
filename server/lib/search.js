@@ -54,37 +54,6 @@ function searchMultiple(terms, fn) {
     });
 }
 
-function split(words, parts, depth, fn) {
-    var splits = ['-', '/'];
-    // if (depth === splits.length) {
-    //     console.log('returned');
-    //     fn(parts);
-    // }
-    var cnt, start;
-    console.log('before forEach 1');
-    words.forEach(function(word) {
-        cnt = parts.length;
-        start = cnt;
-        console.log(word);
-        splits.forEach(function(split) {
-            console.log(split);
-            if (word.indexOf(split) !== -1) {
-                word.split(split).forEach(function(part) {
-                    parts.push(part);
-                    cnt++;
-                });
-            }
-        });
-        if (start === cnt) {
-            console.log('no parts');
-            parts.push(word);
-        }
-    });
-    console.log('done with words');
-    fn(parts);
-    //split(parts, parts.slice(0), depth+1, fn);
-}
-
 function search(terms, fn) {
     //console.log(terms);
     if (terms === null) {
@@ -99,14 +68,10 @@ function search(terms, fn) {
     if (words.length === 0) {
         console.log('Empty search term list');
         fn(null, []);
+    } else if (words.length === 1) {
+        searchSingle(Config.index.prefix + ":" + words[0], fn);
     } else {
-        split(words, [], 0, function(parts) {
-            if (parts.length === 1) {
-                searchSingle(Config.index.prefix + ":" + parts[0], fn);
-            } else {
-                searchMultiple(parts, fn);
-            }
-        });
+        searchMultiple(words, fn);
     }
 }
 
