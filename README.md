@@ -18,4 +18,3 @@ The initial implemenation will be a person search, but will be able to support a
 
 * gulp build - Browserify the client directory
 * gulp test - Run mocha test suite
-
